@@ -1,0 +1,3 @@
+class FocusEffect extends AbstractBehavior{
+
+}
