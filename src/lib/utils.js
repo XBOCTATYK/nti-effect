@@ -8,3 +8,4 @@
 export const inRange = (num1, num2, range) => {
   return (num1 <= num2 + range && num1 >= num2 - range);
 };
+

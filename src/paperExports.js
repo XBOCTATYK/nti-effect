@@ -11,3 +11,4 @@ export const Gradient = paper.Gradient;
 export const Group = paper.Group;
 export const TextItem = paper.TextItem;
 export const PointText = paper.PointText;
+export const Raster = paper.Raster;

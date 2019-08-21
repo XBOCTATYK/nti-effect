@@ -7,22 +7,25 @@ const defaultParams = {
 };
 
 const zFunction = (z) => {
-  return 1-(z**2)/20000
+  return (z**2)/10000
 };
 
 
 export class LightPoint extends AbstractObject{
+
   constructor(options = {}) {
     super(options);
 
     this.initialPosition = options.initialPosition;
     this.z = options.initialPosition.z || 0;
-    this.element.opacity = this._getOpacity();
+    this.element.opacity = 1 - (this._getOpacity());
     this.element.fillColor = this._getGradient();
+    this.element.radius = this.size;
     options.animation.amplitude = this._getAmplitude();
     this.addBehavior(VerticalSine, options.animation);
+    this._constructAnimation();
 
-    const text = new PointText({
+    /*const text = new PointText({
       position: new Point(this.initialPosition.x, this.initialPosition.y),
       fillColor: 'white',
       justification: 'center',
@@ -31,12 +34,12 @@ export class LightPoint extends AbstractObject{
 
     text.content = this.z;
 
-    this.element.addChild(text)
+    this.element.addChild(text)*/
   }
 
   _createElement(options = {}) {
     const params = {...defaultParams, ...options};
-    params.radius = this._getSize(params.radius);
+    params.radius = this.size = this._getSize(params.radius);
 
     return new Path.Circle(params);
   }
@@ -44,12 +47,18 @@ export class LightPoint extends AbstractObject{
   _getGradient() {
 
     let {red: r, green: g, blue: b} = this.element.fillColor;
+    let additionOpacity = 0.5;
+
+    if (this.initialPosition.z === 0) {
+      console.log(zFunction(this.initialPosition.z))
+      additionOpacity = 1;
+    }
 
     return {
       gradient: {
         stops: [
           [new Color(r, g, b, 1), 0],
-          [new Color(r, g, b, 0.7), zFunction(this.initialPosition.z)],
+          [new Color(r, g, b, 0.5), 1-zFunction(this.initialPosition.z)-0.1],
           [new Color(r, g, b, 0), 1]
         ],
         radial: true
@@ -60,14 +69,15 @@ export class LightPoint extends AbstractObject{
   }
 
   _getAmplitude() {
-    return (this.initialPosition.z+120)
+    return (this.initialPosition.z+140)
   }
 
   _getOpacity() {
-    return this.initialPosition.z > 0 ? zFunction(this.initialPosition.z) : zFunction(this.initialPosition.z)
+    return this.initialPosition.z > 0 ? zFunction(this.initialPosition.z)*2 : zFunction(this.initialPosition.z)*2
   }
 
   _getSize(initSize = 30) {
-    return this.initialPosition.z > 0 ? (this.initialPosition.z**2)/300+initSize : (-1*this.initialPosition.z)/50+initSize/2
+    //console.log(initSize);
+    return this.initialPosition.z > 0 ? (this.initialPosition.z**2)/800+initSize : (this.initialPosition.z**2)/800+initSize
   };
 }

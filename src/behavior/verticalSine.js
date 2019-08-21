@@ -13,6 +13,7 @@ export class VerticalSine extends AbstractBehavior {
   constructor(element, options = {}) {
     super(element, options);
     this.options = {...this.options, ...options};
+    this.options.initialY = this.element.position.getY();
   }
 
   animate() {
@@ -22,10 +23,10 @@ export class VerticalSine extends AbstractBehavior {
 
     if (this.options.phase >= MAX_PHASE) this.options.phase = 1;
 
-    if (Y < APP_CONFIG.height) {
+    if (Y < APP_CONFIG.height + 500) {
       Y = Y + this.options.speed;
       this.options.phase = this.options.phase + this.options.speed;
-      Y = 300 + this.options.amplitude * Math.sin(this.options.phase * Math.PI/180);
+      Y = this.options.initialY + this.options.amplitude * Math.sin(this.options.phase * Math.PI/180);
       this.element.position = new Point(X, Y);
 
     } else {

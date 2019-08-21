@@ -24,14 +24,53 @@ const DEFAULT_OPTIONS = {
     }
 }
 
-const createLine = (from, to, width) => new LineBetween({
-  fromPathElement: from,
-  toPathElement: to,
-  element: {
-    strokeColor: 'white',
-    strokeWidth: width
+const defaultOptions = {
+    offset: 0,
+    width: 1,
+  opacity: 0.7,
+  blur: 0,
+  color: '#26c3cc',
+  shadowColor: '#ffffff'
+};
+
+const createLine = (from, to, opt = defaultOptions) => {
+  const options = {...defaultOptions, ...opt};
+
+  new LineBetween({
+    fromPathElement: from,
+    toPathElement: to,
+    fromOffset: {x: Math.ceil(Math.random()*options.offset*2-options.offset), y: Math.ceil(Math.random()*options.offset*2-options.offset)},
+    toOffset: {x: Math.ceil(Math.random()*options.offset*2-options.offset), y: Math.ceil(Math.random()*options.offset*2-options.offset)},
+    element: {
+      strokeColor: options.color,
+      strokeWidth: options.width,
+      opacity: options.opacity,
+      shadowBlur: options.blur,
+      shadowColor: options.shadowColor
+    },
+
+  });
+};
+
+const calculateOptionsWithZ = (z) => {
+  let lineOptions = {};
+  const absZ = Math.abs(z);
+
+  if (z === 0) return {
+    color: '#4df8ff',
+    opacity: 0.7,
+    width: 2
+  };
+
+  lineOptions.width = absZ/5;
+  lineOptions.opacity = Math.abs(0.2-(absZ/500));
+
+  if (z > 20 || z < 20) {
+    lineOptions.blur = absZ/10;
   }
-});
+
+  return lineOptions;
+};
 
 
 export function createDots(options = DEFAULT_OPTIONS) {
@@ -40,6 +79,7 @@ export function createDots(options = DEFAULT_OPTIONS) {
     const offsetPerStep = options.offsetPerStep;
     const offsetPhase = options.offsetPhase;
     const yFactor = options.yFactor || 100;
+    const dispersion = options.offsetLine;
 
     let color = options.color || new Color(255, 255, 255, 1);
     let dots = [];
@@ -54,17 +94,17 @@ export function createDots(options = DEFAULT_OPTIONS) {
           z: zFactor()
         },
         element: {
-          radius: 10,
+          radius: 5,
           center: paper.view.center,
-          fillColor: new Color(46, 197, 206, 1)
+          fillColor: '#30eff8'
         },
         animation: {
-          speed: 1,
+          speed: 2,
           phase: phase
         }
       });
 
-      const currentOffsetPosition = Math.ceil(offsetPerStep + Math.random()*offsetPerStep - offsetPerStep/2);
+      const currentOffsetPosition = Math.ceil(offsetPerStep + Math.random()*offsetPerStep/2 - offsetPerStep/2);
       position += currentOffsetPosition;
       const currentOffset = Math.ceil(offsetPhase + Math.random()*offsetPhase - offsetPhase/2);
       phase += currentOffset;
@@ -73,7 +113,7 @@ export function createDots(options = DEFAULT_OPTIONS) {
       if (phase > 361) phase = currentOffset - phaseLeft;
 
       if (index > 0) {
-        createLine(dots[index - 1], newDot, 1)
+        createLine(dots[index - 1], newDot, calculateOptionsWithZ(newDot.z))
       }
 
       dots.push(newDot);
@@ -92,23 +132,20 @@ export const createLines = (options) => {
     return arr.concat(arr1);
   });
 
-  console.log(allDots);
-
     for (let index = 0; index < dots.length; index++) {
         const dotArr = dots[index];
         const range = ranges[index];
 
-        console.log(range);
-        console.log(dotArr);
-
         dotArr.map((dot) => {
           allDots.map((item, key) => {
+
             if (inRange(item.x, dot.x, range.x) &&
               inRange(item.z, dot.z, range.z)
             ) {
-              createLine(item, dot, 1);
+              createLine(item, dot, calculateOptionsWithZ(item.z));
             }
           })
         });
     }
 };
+

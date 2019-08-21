@@ -26,7 +26,6 @@ export class LineBetween extends SimpleLine {
    */
   constructor(options) {
     super(options);
-    console.log(options.fromPathElement);
 
     try {
       this.element.fromPathElement = options.fromPathElement.element || this._throwError('LineBetween: lineFromElement is required');
