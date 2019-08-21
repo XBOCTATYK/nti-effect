@@ -14,23 +14,23 @@ export class VerticalSine extends AbstractBehavior {
     super(element, options);
     this.options = {...this.options, ...options};
     this.options.initialY = this.element.position.getY();
+    this.x = this.element.position.getX();
+    this.y = this.element.position.getY();
   }
 
   animate() {
     const MAX_PHASE = 361;
-    let X = this.element.position.getX();
-    let Y = this.element.position.getY();
 
     if (this.options.phase >= MAX_PHASE) this.options.phase = 1;
 
-    if (Y < APP_CONFIG.height + 500) {
-      Y = Y + this.options.speed;
+    if (this.y < APP_CONFIG.height + 500) {
+      this.y = this.y + this.options.speed;
       this.options.phase = this.options.phase + this.options.speed;
-      Y = this.options.initialY + this.options.amplitude * Math.sin(this.options.phase * Math.PI/180);
-      this.element.position = new Point(X, Y);
+      this.y = this.options.initialY + this.options.amplitude * Math.sin(this.options.phase * Math.PI/180);
+      this.element.position = new Point(this.x, this.y);
 
     } else {
-      Y = 10;
+      this.y = 10;
     }
   }
 

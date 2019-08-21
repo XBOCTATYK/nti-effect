@@ -28,49 +28,49 @@ window.addEventListener('load', function () {
 
   let dots1 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
+    offsetPerStep: 260,
     startPhase: 10,
     yFactor: 400,
-    offsetPhase: 30,
-    count: 12,
-    zFactor: () => {return -70}
+    offsetPhase: 25,
+    count: 14,
+    zFactor: () => {return -60}
   });
 
   let dots2 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
+    offsetPerStep: 260,
     startPhase: 10,
-    offsetPhase: 30,
+    offsetPhase: 25,
     yFactor: 400,
-    count: 12,
+    count: 14,
     zFactor: () => {return -30}
   });
 
   let dots3 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
+    offsetPerStep: 260,
     startPhase: 10,
     yFactor: 400,
-    offsetPhase: 30,
+    offsetPhase: 25,
     count: 14,
     zFactor: () => {return 0}
   });
 
   let dots4 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
+    offsetPerStep: 260,
     startPhase: 10,
-    offsetPhase: 30,
-    count: 12,
+    offsetPhase: 25,
+    count: 14,
     yFactor: 450,
     zFactor: () => {return 20}
   });
 
   let dots5 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
+    offsetPerStep: 260,
     startPhase: 10,
-    offsetPhase: 30,
+    offsetPhase: 25,
     count: 12,
     yFactor: 600,
     zFactor: () => {return 40}
@@ -78,21 +78,21 @@ window.addEventListener('load', function () {
 
   let dots6 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
-    startPhase: 10,
-    offsetPhase: 30,
-    count: 12,
+    offsetPerStep: 410,
+    startPhase: 15,
+    offsetPhase: 25,
+    count: 8,
     yFactor: 700,
     zFactor: () => {return 60}
   });
 
   let dots7 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
-    startPhase: 10,
-    offsetPhase: 30,
-    count: 12,
-    yFactor: 900,
+    offsetPerStep: 410,
+    startPhase: 25,
+    offsetPhase: 25,
+    count: 8,
+    yFactor: 1000,
     zFactor: () => {return 80}
   });
 
@@ -103,8 +103,8 @@ window.addEventListener('load', function () {
       ranges: [
         {x: 200, z: 40},
         {x: 220, z: 30},
-        {x: 220, z: 30},
-        {x: 180, z: 20},
+        {x: 200, z: 30},
+        {x: 220, z: 20},
         {x: 200, z: 20},
         {x: 180, z: 20},
         {x: 180, z: 20},

@@ -7,7 +7,7 @@ const defaultParams = {
 };
 
 const zFunction = (z) => {
-  return (z**2)/10000
+  return ((z**2)/10000).toFixed(3)
 };
 
 
@@ -50,7 +50,6 @@ export class LightPoint extends AbstractObject{
     let additionOpacity = 0.5;
 
     if (this.initialPosition.z === 0) {
-      console.log(zFunction(this.initialPosition.z))
       additionOpacity = 1;
     }
 
@@ -73,11 +72,11 @@ export class LightPoint extends AbstractObject{
   }
 
   _getOpacity() {
-    return this.initialPosition.z > 0 ? zFunction(this.initialPosition.z)*2 : zFunction(this.initialPosition.z)*2
+    return this.initialPosition.z > 0 ? zFunction(this.initialPosition.z)*3 : zFunction(this.initialPosition.z)*3
   }
 
   _getSize(initSize = 30) {
     //console.log(initSize);
-    return this.initialPosition.z > 0 ? (this.initialPosition.z**2)/800+initSize : (this.initialPosition.z**2)/800+initSize
+    return this.initialPosition.z > 0 ? Math.ceil((this.initialPosition.z**2)/800)+initSize : Math.ceil((this.initialPosition.z**2)/800)+initSize
   };
 }

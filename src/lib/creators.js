@@ -63,7 +63,7 @@ const calculateOptionsWithZ = (z) => {
   };
 
   lineOptions.width = absZ/5;
-  lineOptions.opacity = Math.abs(0.2-(absZ/500));
+  lineOptions.opacity = z > 0 ? Math.abs(0.1-(absZ/1000)) : Math.abs(0.05-(absZ/2000));
 
   if (z > 20 || z < 20) {
     lineOptions.blur = absZ/10;
@@ -104,7 +104,7 @@ export function createDots(options = DEFAULT_OPTIONS) {
         }
       });
 
-      const currentOffsetPosition = Math.ceil(offsetPerStep + Math.random()*offsetPerStep/2 - offsetPerStep/2);
+      const currentOffsetPosition = Math.ceil(offsetPerStep + Math.random()*offsetPerStep/3 - offsetPerStep/2);
       position += currentOffsetPosition;
       const currentOffset = Math.ceil(offsetPhase + Math.random()*offsetPhase - offsetPhase/2);
       phase += currentOffset;
