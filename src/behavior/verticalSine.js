@@ -18,6 +18,10 @@ export class VerticalSine extends AbstractBehavior {
     this.y = this.element.position.getY();
   }
 
+  change(options) {
+    this.options = {...this.options, ...options}
+  }
+
   animate() {
     const MAX_PHASE = 361;
 

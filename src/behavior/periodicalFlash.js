@@ -18,12 +18,9 @@ export class PeriodicalFlash extends AbstractBehavior {
       ...opt
     };
 
-    console.log(opt);
-
     super(element, options);
     this.options = {...this.options, ...options};
     this.startOpacity = this.element.opacity;
-   // console.log(this.options)
   }
 
   animate() {
@@ -41,8 +38,6 @@ export class PeriodicalFlash extends AbstractBehavior {
     if (this.stage === STAGES.FLASH) {
       let maxOpacity = this.startOpacity + this.options.flashStrength;
       if (maxOpacity > 1) maxOpacity = 1;
-
-      //console.log(this.element.opacity);
 
       this.element.opacity += this.options.flashSpeed/20;
       if (this.options.changeWidth) {

@@ -22,7 +22,7 @@ export class LightPoint extends AbstractObject{
     this.element.opacity = 1 - (this._getOpacity());
     this.element.fillColor = this._getGradient();
     this.element.radius = this.size;
-    options.animation.amplitude = this._getAmplitude();
+    options.animation.amplitude = this._getAmplitude(options.animation.amplitude);
     this.addBehavior(VerticalSine, options.animation);
     this._constructAnimation();
 
@@ -36,6 +36,12 @@ export class LightPoint extends AbstractObject{
     text.content = this.z;
 
     this.element.addChild(text)*/
+  }
+
+  change(options) {
+    for (let behavior of this.behaviors) {
+      behavior.change(options);
+    }
   }
 
   _createElement(options = {}) {
@@ -68,8 +74,8 @@ export class LightPoint extends AbstractObject{
     }
   }
 
-  _getAmplitude() {
-    return (this.initialPosition.z+110)
+  _getAmplitude(factor) {
+    return (this.initialPosition.z+factor)
   }
 
   _getOpacity() {

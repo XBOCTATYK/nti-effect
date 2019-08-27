@@ -13,6 +13,7 @@ export class AbstractObject {
    */
   element = null;
   initialPosition = initialPositionDefault;
+  options = {};
 
   constructor(options = {}) {
 

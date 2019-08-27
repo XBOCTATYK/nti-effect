@@ -70,7 +70,7 @@ const calculateOptionsWithZ = (z) => {
   lineOptions.width = absZ/5;
   lineOptions.opacity = z > 0 ? Math.abs(0.1-(absZ/1000)) : Math.abs(0.05-(absZ/2000));
 
-  if (z > 30 || z < -40) {
+  if (z > 20 || z < -40) {
     lineOptions.blur = absZ/10;
   }
 
@@ -81,6 +81,8 @@ const calculateOptionsWithZ = (z) => {
   return lineOptions;
 };
 
+/* Рандомим амплитуду */
+const AMPLITUDE_FACTOR = Math.ceil(Math.random()*30) + 90;
 
 export function createDots(options = DEFAULT_OPTIONS) {
     const count = options.count || 1;
@@ -109,7 +111,8 @@ export function createDots(options = DEFAULT_OPTIONS) {
         },
         animation: {
           speed: 2,
-          phase: phase
+          phase: phase,
+          amplitude: AMPLITUDE_FACTOR
         }
       });
 
@@ -154,5 +157,7 @@ export const createLines = (options) => {
           })
         });
     }
+
+  return allDots;
 };
 
