@@ -27,7 +27,7 @@ const DEFAULT_OPTIONS = {
 const defaultOptions = {
     offset: 0,
     width: 1,
-  opacity: 0.7,
+  opacity: 0.6,
   blur: 0,
   color: '#26c3cc',
   shadowColor: '#ffffff'
@@ -48,26 +48,35 @@ const createLine = (from, to, opt = defaultOptions) => {
       shadowBlur: options.blur,
       shadowColor: options.shadowColor
     },
-
+    animation: options.animation
   });
 };
 
 const calculateOptionsWithZ = (z) => {
   let lineOptions = {};
   const absZ = Math.abs(z);
+  const nullZ = (z === 0);
 
-  if (z === 0) return {
+  if (nullZ) return {
     color: '#4df8ff',
-    opacity: 0.7,
-    width: 2
+    opacity: 0.5,
+    width: 2,
+    animation: {
+      flashStrength: 0.5,
+      changeWidth: true
+    }
   };
 
   lineOptions.width = absZ/5;
   lineOptions.opacity = z > 0 ? Math.abs(0.1-(absZ/1000)) : Math.abs(0.05-(absZ/2000));
 
-  if (z > 20 || z < 20) {
+  if (z > 30 || z < -40) {
     lineOptions.blur = absZ/10;
   }
+
+  lineOptions.animation = {
+    flashStrength: 0.1,
+  };
 
   return lineOptions;
 };
@@ -104,9 +113,9 @@ export function createDots(options = DEFAULT_OPTIONS) {
         }
       });
 
-      const currentOffsetPosition = Math.ceil(offsetPerStep + Math.random()*offsetPerStep/3 - offsetPerStep/2);
+      const currentOffsetPosition = Math.ceil(offsetPerStep + Math.random()*offsetPerStep/3 - offsetPerStep/3);
       position += currentOffsetPosition;
-      const currentOffset = Math.ceil(offsetPhase + Math.random()*offsetPhase - offsetPhase/2);
+      const currentOffset = offsetPhase;
       phase += currentOffset;
       const phaseLeft = 361 - phase;
 
@@ -139,9 +148,7 @@ export const createLines = (options) => {
         dotArr.map((dot) => {
           allDots.map((item, key) => {
 
-            if (inRange(item.x, dot.x, range.x) &&
-              inRange(item.z, dot.z, range.z)
-            ) {
+            if (inRange(item.x, dot.x, range.x) && inRange(item.z, dot.z, range.z)) {
               createLine(item, dot, calculateOptionsWithZ(item.z));
             }
           })

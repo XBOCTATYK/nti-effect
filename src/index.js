@@ -13,7 +13,7 @@ window.addEventListener('load', function () {
     bg.fillColor = 'black';*/
 
    const back = new Raster({
-     source:'img/main-bg2.jpg',
+     source: canvas.dataset.bgPath,
      width: 1920,
      height: 600,
      position: paper.view.center
@@ -28,7 +28,7 @@ window.addEventListener('load', function () {
 
   let dots1 = createDots({
     startPosition: -80,
-    offsetPerStep: 260,
+    offsetPerStep: 220,
     startPhase: 10,
     yFactor: 400,
     offsetPhase: 25,
@@ -38,7 +38,7 @@ window.addEventListener('load', function () {
 
   let dots2 = createDots({
     startPosition: -80,
-    offsetPerStep: 260,
+    offsetPerStep: 220,
     startPhase: 10,
     offsetPhase: 25,
     yFactor: 400,
@@ -48,7 +48,7 @@ window.addEventListener('load', function () {
 
   let dots3 = createDots({
     startPosition: -80,
-    offsetPerStep: 260,
+    offsetPerStep: 220,
     startPhase: 10,
     yFactor: 400,
     offsetPhase: 25,
@@ -58,7 +58,7 @@ window.addEventListener('load', function () {
 
   let dots4 = createDots({
     startPosition: -80,
-    offsetPerStep: 260,
+    offsetPerStep: 220,
     startPhase: 10,
     offsetPhase: 25,
     count: 14,
@@ -68,46 +68,36 @@ window.addEventListener('load', function () {
 
   let dots5 = createDots({
     startPosition: -80,
-    offsetPerStep: 260,
+    offsetPerStep: 240,
     startPhase: 10,
     offsetPhase: 25,
     count: 12,
-    yFactor: 600,
+    yFactor: 550,
     zFactor: () => {return 40}
   });
 
   let dots6 = createDots({
     startPosition: -80,
-    offsetPerStep: 410,
+    offsetPerStep: 380,
     startPhase: 15,
     offsetPhase: 25,
     count: 8,
-    yFactor: 700,
+    yFactor: 800,
     zFactor: () => {return 60}
   });
 
-  let dots7 = createDots({
-    startPosition: -80,
-    offsetPerStep: 410,
-    startPhase: 25,
-    offsetPhase: 25,
-    count: 8,
-    yFactor: 1000,
-    zFactor: () => {return 80}
-  });
 
 
     const off = Math.ceil(Math.random()*10);
     let lines = createLines({
-      dots: [dots1, dots2, dots3, dots4, dots5, dots6, dots7],
+      dots: [dots1, dots2, dots3, dots4, dots5, dots6],
       ranges: [
-        {x: 200, z: 40},
-        {x: 220, z: 30},
+        {x: 0, z: 0},
         {x: 200, z: 30},
-        {x: 220, z: 20},
+        {x: 0, z: 0},
         {x: 200, z: 20},
-        {x: 180, z: 20},
-        {x: 180, z: 20},
+        {x: 0, z: 0},
+        {x: 380, z: 20},
       ],
       offsetLine: off
     })

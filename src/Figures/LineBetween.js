@@ -1,5 +1,6 @@
 import {SimpleLine} from "./SimpleLine";
 import {LineBetweenElements} from "../behavior/lineBetweenElements";
+import {PeriodicalFlash} from "../behavior/periodicalFlash";
 
 const INITIAL_OFFSET = {
   x: 0,
@@ -23,6 +24,7 @@ export class LineBetween extends SimpleLine {
    * @param {Path} options.lineTo
    * @param {Offset} options.fromPathElement
    * @param {Offset} options.toPathElement
+   * @param {object} options.animation
    */
   constructor(options) {
     super(options);
@@ -37,6 +39,7 @@ export class LineBetween extends SimpleLine {
     }
 
     this.addBehavior(LineBetweenElements);
+    this.addBehavior(PeriodicalFlash, options.animation);
     this._constructAnimation();
   }
 

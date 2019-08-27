@@ -1,6 +1,7 @@
 import {Color, Path, Point, TextItem, PointText} from "../paperExports";
 import {AbstractObject} from "./AbstractObject";
 import {VerticalSine} from "../behavior/verticalSine";
+import {PeriodicalFlash} from "../behavior/periodicalFlash";
 
 const defaultParams = {
   fillColor: 'green'
@@ -68,7 +69,7 @@ export class LightPoint extends AbstractObject{
   }
 
   _getAmplitude() {
-    return (this.initialPosition.z+140)
+    return (this.initialPosition.z+110)
   }
 
   _getOpacity() {
