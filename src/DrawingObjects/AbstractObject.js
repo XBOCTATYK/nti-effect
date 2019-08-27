@@ -38,6 +38,10 @@ export class AbstractObject {
     this.behaviors.push(behavior);
   }
 
+  remove() {
+    this.element.remove();
+  }
+
   /**
    * @abstract
    * @private

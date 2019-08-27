@@ -29,11 +29,22 @@ window.addEventListener('load', function () {
   /* Рандомим стартовую фазу */
    const START_PHASE = Math.ceil(Math.random()*360);
 
+  let dots0 = createDots({
+    startPosition: -80,
+    offsetPerStep: 380,
+    startPhase: START_PHASE + 180,
+    yFactor: 600,
+    offsetPhase: 25,
+    count: 8,
+    zFactor: () => {return -80}
+  });
+
+
   let dots1 = createDots({
     startPosition: -80,
     offsetPerStep: 220,
     startPhase: START_PHASE,
-    yFactor: 400,
+    yFactor: 450,
     offsetPhase: 25,
     count: 14,
     zFactor: () => {return -60}
@@ -66,7 +77,7 @@ window.addEventListener('load', function () {
     offsetPhase: 25,
     count: 14,
     yFactor: 450,
-    zFactor: () => {return 20}
+    zFactor: () => {return 10}
   });
 
   let dots5 = createDots({
@@ -93,14 +104,16 @@ window.addEventListener('load', function () {
 
     const off = Math.ceil(Math.random()*10);
     let lines = createLines({
-      dots: [dots1, dots2, dots3, dots4, dots5, dots6],
+      dots: [dots0, dots1, dots2, dots3, dots4, dots5, dots6],
       ranges: [
+        {x: 300, z: 20},
         {x: 0, z: 0},
         {x: 200, z: 30},
         {x: 0, z: 0},
-        {x: 200, z: 20},
+        {x: 200, z: 30},
         {x: 0, z: 0},
         {x: 350, z: 20},
+        {x: 0, z: 0},
       ],
       offsetLine: off
     });
