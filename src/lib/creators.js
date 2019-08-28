@@ -27,7 +27,7 @@ const DEFAULT_OPTIONS = {
 const defaultOptions = {
     offset: 0,
     width: 1,
-  opacity: 0.6,
+  opacity: 0.5,
   blur: 0,
   color: '#26c3cc',
   shadowColor: '#ffffff'
@@ -59,7 +59,7 @@ const calculateOptionsWithZ = (z) => {
 
   if (nullZ) return {
     color: '#4df8ff',
-    opacity: 0.5,
+    opacity: 0.6,
     width: 2,
     animation: {
       flashStrength: 0.5,
@@ -86,7 +86,7 @@ const calculateOptionsWithZ = (z) => {
 };
 
 /* Рандомим амплитуду */
-const AMPLITUDE_FACTOR = Math.ceil(Math.random()*30) + 90;
+const AMPLITUDE_FACTOR = Math.ceil(Math.random()*30) + 30;
 
 export function createDots(options = DEFAULT_OPTIONS) {
     const count = options.count || 1;
@@ -114,7 +114,7 @@ export function createDots(options = DEFAULT_OPTIONS) {
           fillColor: '#30eff8'
         },
         animation: {
-          speed: 2,
+          speed: 1,
           phase: phase,
           amplitude: AMPLITUDE_FACTOR
         }

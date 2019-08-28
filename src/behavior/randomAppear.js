@@ -4,7 +4,8 @@ import {Point} from "../paperExports";
 const STAGES = {
   IDLE: 1,
   APPEAR: 2,
-  DISAPPEAR: 3
+  DISAPPEAR: 3,
+  APPEARING: 4,
 };
 
 export class RandomAppear extends AbstractBehavior {
@@ -17,6 +18,8 @@ export class RandomAppear extends AbstractBehavior {
       flashSpeed: 1,
       flashStrength: 0.2,
       reduceSpeed: 1,
+      maxOpacity: 1,
+      duration: 4,
       border: {
         startX: 0,
         startY: 0,
@@ -37,7 +40,7 @@ export class RandomAppear extends AbstractBehavior {
         setTimeout(() => {
           this._setPosition();
           this._setAppear();
-          }, Math.ceil(Math.random()*5000));
+          }, Math.ceil(Math.random()*10000));
           this.timerOn = true;
       }
 
@@ -46,37 +49,42 @@ export class RandomAppear extends AbstractBehavior {
 
   _setPosition() {
     const position = {
-      x: Math.ceil(Math.random()* this.options.border.endX - this.options.border.startX),
-      y: Math.ceil(Math.random()* this.options.border.endY - this.options.border.startY),
+      x: Math.ceil(Math.random()* (this.options.border.endX - this.options.border.startX)) + this.options.border.startX,
+      y: Math.ceil(Math.random()* (this.options.border.endY - this.options.border.startY)) + this.options.border.startY,
     };
 
     this.element.position = new Point(position.x, position.y);
   }
 
   _flash() {
+
     if (this.stage === STAGES.APPEAR) {
-      let maxOpacity = 1;
+      const maxOpacity = this.options.maxOpacity;
 
       this.element.opacity += this.options.flashSpeed/20;
 
       if (this.element.opacity >= maxOpacity) {
-        if (!this.timerDisappearOn) {
-          setTimeout(() => {
-            this._setDisappear();
-          }, Math.ceil(Math.random()*2000));
-          this.timerDisappearOn = true;
-        }
-
+        this._setAppearing();
       }
     }
 
+    if (this.stage === STAGES.APPEARING) {
+      if (!this.timerDisappearOn) {
+        this.element.opacity = this.options.maxOpacity;
+        setTimeout(() => {
+          this._setDisappear();
+        }, Math.ceil(Math.random()*this.options.duration*3000));
+        this.timerDisappearOn = true;
+      }
+    }
 
     if (this.stage === STAGES.DISAPPEAR) {
-      let minOpacity = 0;
+      const reduceSpeed = this.options.reduceSpeed/20;
+      const minOpacity = 0;
 
-      this.element.opacity -= this.options.reduceSpeed/20;
+      this.element.opacity -= reduceSpeed;
 
-      if (this.element.opacity <= minOpacity) {
+      if (this.element.opacity <= minOpacity + reduceSpeed) {
         this._setIdle();
         this._setPosition();
         this.timerOn = false;
@@ -92,6 +100,11 @@ export class RandomAppear extends AbstractBehavior {
   _setDisappear = () => {
     this.stage = STAGES.DISAPPEAR;
   };
+
+  _setAppearing = () => {
+    this.stage = STAGES.APPEARING;
+  };
+
 
   _setIdle = () => {
     this.stage = STAGES.IDLE;
