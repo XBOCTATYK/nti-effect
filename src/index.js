@@ -239,7 +239,7 @@ window.addEventListener('load', function () {
   let splashTiming = 5000;
   let splashSpeedFactor = 30;
   let reduceSpeedFactor = 100;
-  let speedWave = 2;
+  let speedWave = 1;
 
 
   document.body.addEventListener('click', (event) => {
@@ -313,8 +313,7 @@ window.addEventListener('load', function () {
 
       lines.forEach(item => {
         item.change({
-          amplitude: amount -= accel / reduceSpeedFactor,
-          speed: 1
+          amplitude: amount -= accel / reduceSpeedFactor
         })
       });
 
@@ -326,8 +325,9 @@ window.addEventListener('load', function () {
   const MAX_MOVEMENT = 60;
   const MIN_MOVEMENT = 10;
   const MAX_MOUSE_AMPLITUDE = 200;
+  const MOUSE_DETECT_SURFACE = '.js-slider-waves';
 
-  const sliderWaves = document.getElementsByClassName('js-slider-waves')[0];
+  const sliderWaves = document.querySelector(MOUSE_DETECT_SURFACE);
 
   sliderWaves.addEventListener('mousemove', (event) => {
 
@@ -343,7 +343,7 @@ window.addEventListener('load', function () {
       if (movement < MIN_MOVEMENT) return;
 
       makeSplash({
-        splash: movement += 2,
+        splash: movement += 4,
         splashTiming: 1000,
         splashSpeedFactor: 100,
         reduceSpeedFactor: 200
