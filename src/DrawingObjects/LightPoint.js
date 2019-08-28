@@ -39,6 +39,9 @@ export class LightPoint extends AbstractObject{
   }
 
   change(options) {
+
+    options.amplitude = this._getAmplitude(options.amplitude);
+
     for (let behavior of this.behaviors) {
       behavior.change(options);
     }

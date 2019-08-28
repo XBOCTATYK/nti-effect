@@ -71,7 +71,7 @@ const calculateOptionsWithZ = (z) => {
   lineOptions.opacity = z > 0 ? Math.abs(0.1-(absZ/1000)) : Math.abs(0.05-(absZ/2000));
 
   if (z < -40) {
-    lineOptions.blur = absZ/10;
+    lineOptions.blur = absZ/20;
   }
 
   if (z > 30) {

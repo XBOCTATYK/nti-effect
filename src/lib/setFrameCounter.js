@@ -13,7 +13,7 @@ export const setFrameCounter = () => {
   frameCount(
     performance.now(),
     performance.now(),
-    (fps) => {avg = fps},
+    (fps) => {avg = fps; console.log(fps)},
     (fps) => {}
   );
 

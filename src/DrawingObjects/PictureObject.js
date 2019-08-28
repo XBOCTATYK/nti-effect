@@ -16,6 +16,9 @@ export class PictureObject extends AbstractObject {
   _createElement(options = {}) {
     const params = {...defaultParams, ...options};
 
-    return new Raster(params);
+    const image = new Raster(params);
+    image.opacity = params.opacity;
+
+    return image;
   }
 }

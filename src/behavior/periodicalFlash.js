@@ -27,7 +27,7 @@ export class PeriodicalFlash extends AbstractBehavior {
       if (!this.timerOn) {
         setTimeout(() => {
           this._setFlash();
-          }, Math.ceil(Math.random()*30000));
+          }, Math.ceil(Math.random()*20000));
           this.timerOn = true;
       }
 
