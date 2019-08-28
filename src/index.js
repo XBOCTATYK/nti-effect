@@ -279,17 +279,19 @@ window.addEventListener('load', function () {
 
     let skipping = 20;
     let moved = false;
+    const MAX_MOVEMENT = 60;
+    const MIN_MOVEMENT = 30;
 
     canvas.addEventListener('mousemove', (event) => {
 
       if (skipping <= 0 && !moved) {
         let movement = Math.sqrt(event.movementY**2 + event.movementX**2);
 
-        if (movement > 60) {
-          movement = 60;
+        if (movement > MAX_MOVEMENT) {
+          movement = MAX_MOVEMENT;
         }
 
-        if (movement < 30) return;
+        if (movement < MIN_MOVEMENT) return;
 
         makeSplash({
           splash: movement,
