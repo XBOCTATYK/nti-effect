@@ -7,10 +7,13 @@ const INITIAL_OFFSET = {
   y: 0
 };
 
+/**
+ * Расчет положения линии в пространстве между двумя элементами
+ */
 export class LineBetweenElements extends AbstractBehavior{
   constructor(options) {
     super(options);
-    this.borderOffset = this.calculateOffset(this.element.toPathElement, this.element.fromPathElement);
+    //this.borderOffset = this.calculateOffset(this.element.toPathElement, this.element.fromPathElement);
   }
 
   animate() {

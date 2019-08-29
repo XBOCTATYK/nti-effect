@@ -1,14 +1,9 @@
 import paper from 'paper';
-import {Path, Color, Point, Size, Rectangle, Group, Raster} from "./paperExports";
-import {LineBetween} from "./Figures/LineBetween";
-import {LightPoint} from "./DrawingObjects/LightPoint";
-import {inRange} from "./lib/utils";
+import {Raster} from "./paperExports";
 import {createDots, createLines} from "./lib/creators";
-import {setFrameCounter} from "./lib/setFrameCounter";
 import {PictureObject} from "./DrawingObjects/PictureObject";
 import {RandomAppear} from "./behavior/randomAppear";
-
-//setFrameCounter();
+import {createPicItems} from "./lib/createPicItems";
 
 window.addEventListener('load', function () {
   var canvas = document.getElementById('waves');
@@ -16,6 +11,7 @@ window.addEventListener('load', function () {
 
   const imgPath = canvas.dataset.bgPath;
 
+  /** Создание фона */
   const back = new Raster({
     source: `${imgPath}main-bg2.jpg`,
     width: 1920,
@@ -24,99 +20,23 @@ window.addEventListener('load', function () {
   });
 
   back.onLoad = function () {
-    //back.scale(2);
     back.width = 1920;
     back.height = 600
   };
 
+  /** Мелкие элементы, рандомно появляющиеся на экране */
   const imageArray = [`${imgPath}dots.svg`, `${imgPath}square.svg`, `${imgPath}crossb.svg`, `${imgPath}crossp.svg`];
+  const imageZones = [
+    {startX: 1400, startY: 0, endX: 1920, endY: 570, count: 3},
+    {startX: 0, startY: 0, endX: 520, endY: 570, count: 3},
+    {startX: 520, startY: 420, endX: 1400, endY: 600, count: 3},
+    {startX: 520, startY: 86, endX: 1400, endY: 196, count: 2}
+  ];
 
-  const MAX_OPACITY = 0.6;
+  createPicItems(imageArray, imageZones);
 
-  imageArray.forEach(item => {
-    for (let index = 0; index < 3; index++) {
-      window.pict = new PictureObject({
-        element: {
-          source: item,
-          position: paper.view.center
-        }
-      });
 
-      pict.addBehavior(RandomAppear, {
-        border: {
-          startX: 1400,
-          startY: 0,
-          endX: 1920,
-          endY: 570
-        },
-        maxOpacity: MAX_OPACITY
-      })
-    }
-  });
-
-  imageArray.forEach(item => {
-    for (let index = 0; index < 3; index++) {
-      const pict = new PictureObject({
-        element: {
-          source: item,
-          position: paper.view.center,
-        }
-      });
-
-      pict.addBehavior(RandomAppear, {
-        border: {
-          startX: 0,
-          startY: 0,
-          endX: 520,
-          endY: 570
-        },
-        maxOpacity: MAX_OPACITY
-      })
-    }
-  });
-
-  imageArray.forEach(item => {
-    for (let index = 0; index < 3; index++) {
-      const pict = new PictureObject({
-        element: {
-          source: item,
-          position: paper.view.center,
-        }
-      });
-
-      pict.addBehavior(RandomAppear, {
-        border: {
-          startX: 520,
-          startY: 420,
-          endX: 1400,
-          endY: 600
-        },
-        maxOpacity: MAX_OPACITY
-      })
-    }
-  });
-
-  imageArray.forEach(item => {
-    for (let index = 0; index < 2; index++) {
-      const pict = new PictureObject({
-        element: {
-          source: item,
-          position: paper.view.center,
-        }
-      });
-
-      pict.addBehavior(RandomAppear, {
-        border: {
-          startX: 520,
-          startY: 86,
-          endX: 1400,
-          endY: 196
-        },
-        maxOpacity: MAX_OPACITY
-      })
-    }
-  });
-
+  /** Создание точек */
   /* Рандомим стартовую фазу */
   const START_PHASE = Math.ceil(Math.random() * 360);
 
@@ -241,15 +161,22 @@ window.addEventListener('load', function () {
   let reduceSpeedFactor = 100;
   let speedWave = 1;
 
+  let mouseLock = false;
 
-  document.body.addEventListener('click', (event) => {
+
+  document.body.addEventListener('click', () => {
     stage = SPLASH_STAGES.SPLASH;
-    maxAmp += 20;
+    maxAmp += 50;
     splashTiming = 5000;
     speedWave = 1;
     splashSpeedFactor = 30;
     reduceSpeedFactor = 100;
     splashTiming = 5000;
+    mouseLock = true;
+
+    setTimeout(() => {
+      mouseLock = false;
+    }, splashTiming)
   });
 
   const makeSplash = (options) => {
@@ -279,6 +206,7 @@ window.addEventListener('load', function () {
     }
   }, SPLASH_TIMING);
 
+
   paper.view.onFrame = function () {
 
     if (stage === SPLASH_STAGES.SPLASH) {
@@ -287,7 +215,7 @@ window.addEventListener('load', function () {
         stage = SPLASH_STAGES.SPLASHING;
       }
 
-      lines.forEach((item, index) => {
+      lines.forEach(item => {
         item.change({
           amplitude: amount += accel / splashSpeedFactor,
           speed: speedWave
@@ -333,7 +261,7 @@ window.addEventListener('load', function () {
 
     if (event.clientX < 300) return;
 
-    if (skipping <= 0 && amount < MAX_MOUSE_AMPLITUDE) {
+    if (skipping <= 0 && amount < MAX_MOUSE_AMPLITUDE && !mouseLock) {
       let movement = Math.sqrt(event.movementY ** 2 + event.movementX ** 2) * 1.4;
 
       if (movement > MAX_MOVEMENT) {

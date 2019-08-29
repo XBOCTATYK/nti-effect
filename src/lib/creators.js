@@ -8,31 +8,25 @@ const DEFAULT_OPTIONS = {
   startPosition: 0,
   offsetPerStep: 1,
   startPhase: 1,
-  offsetPhase: 35
+  offsetPhase: 35,
+  amplitudeFactor: Math.ceil(Math.random()*30) + 30
 };
 
-  export class CreateDots {
-    constructor(options) {
-        this.count = options.count || 1;
-        this.dots = [];
-    }
-
-    create(options = DEFAULT_OPTIONS) {
-        for(let index = 0; index < this.count; index++) {
-
-        }
-    }
-}
-
 const defaultOptions = {
-    offset: 0,
-    width: 1,
+  offset: 0,
+  width: 1,
   opacity: 0.5,
   blur: 0,
   color: '#26c3cc',
   shadowColor: '#ffffff'
 };
 
+/**
+ * Создает линию от одного объекта до другого
+ * @param {AbstractObject} from
+ * @param {AbstractObject} to
+ * @param {object} opt
+ */
 const createLine = (from, to, opt = defaultOptions) => {
   const options = {...defaultOptions, ...opt};
 
@@ -52,6 +46,11 @@ const createLine = (from, to, opt = defaultOptions) => {
   });
 };
 
+/**
+ * Вычиление параметров линии в зависимости от глубины (z)
+ * @param {number} z
+ * @returns {{color: string, width: number, opacity: number, animation: {flashStrength: number, changeWidth: boolean}}}
+ */
 const calculateOptionsWithZ = (z) => {
   let lineOptions = {};
   const absZ = Math.abs(z);
@@ -85,9 +84,14 @@ const calculateOptionsWithZ = (z) => {
   return lineOptions;
 };
 
-/* Рандомим амплитуду */
-const AMPLITUDE_FACTOR = Math.ceil(Math.random()*30) + 30;
+/* Амплитуда немного рандомится */
 
+
+/**
+ * Размещение точек по указанным параметрам
+ * @param {object} options
+ * @returns {Array<LightPoint>}
+ */
 export function createDots(options = DEFAULT_OPTIONS) {
     const count = options.count || 1;
     const zFactor = options.zFactor || 0;
@@ -95,6 +99,7 @@ export function createDots(options = DEFAULT_OPTIONS) {
     const offsetPhase = options.offsetPhase;
     const yFactor = options.yFactor || 100;
     const dispersion = options.offsetLine;
+    const AMPLITUDE_FACTOR = options.amplitudeFactor || Math.ceil(Math.random()*30) + 30;
 
     let color = options.color || new Color(255, 255, 255, 1);
     let dots = [];
@@ -138,8 +143,11 @@ export function createDots(options = DEFAULT_OPTIONS) {
   return dots;
 }
 
-
-
+/**
+ * Создание линий между точками
+ * @param {object} options
+ * @returns {Array<LightPoint>}
+ */
 export const createLines = (options) => {
   const dots = options.dots || [];
   const ranges = options.ranges || [];

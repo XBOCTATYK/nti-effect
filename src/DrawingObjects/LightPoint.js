@@ -25,17 +25,6 @@ export class LightPoint extends AbstractObject{
     options.animation.amplitude = this._getAmplitude(options.animation.amplitude);
     this.addBehavior(VerticalSine, options.animation);
     this._constructAnimation();
-
-    /*const text = new PointText({
-      position: new Point(this.initialPosition.x, this.initialPosition.y),
-      fillColor: 'white',
-      justification: 'center',
-      fontSize: 10
-    });
-
-    text.content = this.z;
-
-    this.element.addChild(text)*/
   }
 
   change(options) {

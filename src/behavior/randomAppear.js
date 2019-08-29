@@ -8,10 +8,16 @@ const STAGES = {
   APPEARING: 4,
 };
 
+/**
+ * Рандомное появление элемента на экране с последующим исчезанием и перемещением
+ */
 export class RandomAppear extends AbstractBehavior {
   stage = STAGES.IDLE;
   timerOn = false;
   timerDisappearOn = false;
+
+  _flashSpeed = 0;
+  _reduceSpeed = 0;
 
   constructor(element, opt = {}) {
     const options = {
@@ -19,7 +25,10 @@ export class RandomAppear extends AbstractBehavior {
       flashStrength: 0.2,
       reduceSpeed: 1,
       maxOpacity: 1,
-      duration: 4,
+      lifeTimeCoeff: 12,
+      hideTimeCoeff: 10,
+      flashSpeedFactor: 20,
+      reduceSpeedFactor: 20,
       border: {
         startX: 0,
         startY: 0,
@@ -33,14 +42,16 @@ export class RandomAppear extends AbstractBehavior {
     this.options = {...this.options, ...options};
     this.element.opacity = 0;
     this._setPosition();
+
+    this._flashSpeed = this.options.flashSpeed/this.options.flashSpeedFactor;
+    this._reduceSpeed = this.options.reduceSpeed/this.options.reduceSpeedFactor;
   }
 
   animate() {
       if (!this.timerOn) {
         setTimeout(() => {
-          this._setPosition();
           this._setAppear();
-          }, Math.ceil(Math.random()*10000));
+          }, Math.ceil(Math.random()*this.options.lifeTimeCoeff*1000));
           this.timerOn = true;
       }
 
@@ -61,7 +72,7 @@ export class RandomAppear extends AbstractBehavior {
     if (this.stage === STAGES.APPEAR) {
       const maxOpacity = this.options.maxOpacity;
 
-      this.element.opacity += this.options.flashSpeed/20;
+      this.element.opacity += this._flashSpeed;
 
       if (this.element.opacity >= maxOpacity) {
         this._setAppearing();
@@ -73,13 +84,14 @@ export class RandomAppear extends AbstractBehavior {
         this.element.opacity = this.options.maxOpacity;
         setTimeout(() => {
           this._setDisappear();
-        }, Math.ceil(Math.random()*this.options.duration*3000));
+        }, Math.ceil(Math.random()*this.options.lifeTimeCoeff*1000));
+
         this.timerDisappearOn = true;
       }
     }
 
     if (this.stage === STAGES.DISAPPEAR) {
-      const reduceSpeed = this.options.reduceSpeed/20;
+      const reduceSpeed = this._reduceSpeed;
       const minOpacity = 0;
 
       this.element.opacity -= reduceSpeed;

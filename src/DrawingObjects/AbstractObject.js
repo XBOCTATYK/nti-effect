@@ -15,6 +15,12 @@ export class AbstractObject {
   initialPosition = initialPositionDefault;
   options = {};
 
+  /**
+   * @param {object} options
+   * @param {Path} options.element - параметры отрисовываемого элемента
+   * @param {object} options.initialPosition - начальная позиция элемента
+   * @param {array<AbstractBehavior>} options.behaviors - массив с классами расчета движения
+   */
   constructor(options = {}) {
 
     this.initialPosition = {...this.initialPosition, ...options.initialPosition};
@@ -33,6 +39,11 @@ export class AbstractObject {
     return this.element.position.getY();
   }
 
+  /**
+   * Добавить класс с расчетами движения элемента
+   * @param {AbstractBehavior} behaviorClass
+   * @param {object} options
+   */
   addBehavior(behaviorClass, options) {
     const behavior = new behaviorClass(this.element, options);
     this.behaviors.push(behavior);
@@ -43,6 +54,7 @@ export class AbstractObject {
   }
 
   /**
+   * Абстрактная функция, устанавливающая элемент для отрисовки
    * @abstract
    * @private
    * @param {object} elementOptions
@@ -50,6 +62,10 @@ export class AbstractObject {
    */
   _createElement(elementOptions) {}
 
+  /**
+   * По очереди активирует классы с расчетами изменяющихся характеристик элемента
+   * @private
+   */
   _constructAnimation() {
     this.element.onFrame = () => {
       for (let behavior of this.behaviors) {

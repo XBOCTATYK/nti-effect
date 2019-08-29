@@ -1,3 +1,6 @@
+/**
+ * Абстрактный класс для описания движения элемента
+ */
 export class AbstractBehavior {
   options = {};
 

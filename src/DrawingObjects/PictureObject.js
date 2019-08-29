@@ -1,5 +1,5 @@
 import {AbstractObject} from "./AbstractObject";
-import {Path, Point, Raster} from "../paperExports";
+import {Point, Raster} from "../paperExports";
 
 const defaultParams = {
     source: 'img/square.svg',
