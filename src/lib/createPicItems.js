@@ -17,6 +17,7 @@ export const createPicItems = (imageArray, zones) => {
           }
         });
 
+
         pict.addBehavior(RandomAppear, {
           border: zone,
           maxOpacity: zone.opacity || MAX_OPACITY

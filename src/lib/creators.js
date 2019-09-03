@@ -69,12 +69,8 @@ const calculateOptionsWithZ = (z) => {
   lineOptions.width = absZ/5;
   lineOptions.opacity = z > 0 ? Math.abs(0.1-(absZ/1000)) : Math.abs(0.05-(absZ/2000));
 
-  if (z < -40) {
-    lineOptions.blur = absZ/20;
-  }
-
-  if (z > 30) {
-    lineOptions.blur = absZ/20;
+  if (z < -40 && localStorage.getItem('goodPerfomance')) {
+    lineOptions.blur = absZ / 20;
   }
 
   lineOptions.animation = {
@@ -92,6 +88,9 @@ const calculateOptionsWithZ = (z) => {
  * @param {object} options
  * @returns {Array<LightPoint>}
  */
+
+const FILL_MAIN = new Color('#30eff8');
+
 export function createDots(options = DEFAULT_OPTIONS) {
     const count = options.count || 1;
     const zFactor = options.zFactor || 0;
@@ -116,7 +115,7 @@ export function createDots(options = DEFAULT_OPTIONS) {
         element: {
           radius: 5,
           center: paper.view.center,
-          fillColor: '#30eff8'
+          fillColor: FILL_MAIN
         },
         animation: {
           speed: 1,

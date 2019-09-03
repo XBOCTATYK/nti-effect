@@ -3,8 +3,6 @@ import {Point, Raster} from "../paperExports";
 
 const defaultParams = {
     source: 'img/square.svg',
-    width: 32,
-    height: 32,
     position: new Point(0, 0)
 };
 

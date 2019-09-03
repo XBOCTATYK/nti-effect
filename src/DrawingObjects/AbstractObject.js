@@ -67,11 +67,49 @@ export class AbstractObject {
    * @private
    */
   _constructAnimation() {
+    let perf = performance.now();
+    const attempts = 50;
+    let frame = 0;
+    let score = false;
+
     this.element.onFrame = () => {
-      for (let behavior of this.behaviors) {
-          behavior.animate();
+
+      if (!localStorage.getItem('badPerfomance')) {
+        score = false;
       }
-    }
+
+      if (score) {
+        score = !score;
+        return;
+      } else {
+        for (let behavior of this.behaviors) {
+          behavior.animate();
+        }
+        score = !score;
+      }
+
+      if (frame > 10 && frame < 20) {
+        perf = performance.now() - perf;
+      }
+
+      if (frame <= 20) {
+        frame++;
+      }
+    };
+
+    /* Если производительность машины неудовлетворительная - ставим отметку о производительности */
+    setTimeout(() => {
+      if (perf > 4000) {
+        localStorage.setItem('badPerfomance', 1);
+        localStorage.removeItem('goodPerfomance');
+      } else {
+        if (!localStorage.getItem('badPerfomance')) {
+          localStorage.setItem('goodPerfomance', 1);
+        }
+
+      }
+
+    }, 100)
   }
 
   _throwError(message) {

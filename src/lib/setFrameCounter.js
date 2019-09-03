@@ -1,6 +1,6 @@
 import {frameCount} from "./frameCounter";
 
-export const setFrameCounter = () => {
+export const setFrameCounter = (callback) => {
   frameCount.fastCounter = 0;
   frameCount.fastFPS = 0;
   frameCount.preciseCounter = 0;
@@ -13,11 +13,12 @@ export const setFrameCounter = () => {
   frameCount(
     performance.now(),
     performance.now(),
-    (fps) => {avg = fps; console.log(fps)},
+    (fps) => {avg = fps;},
     (fps) => {}
   );
 
   setTimeout(() => {
     console.log(avg);
-  }, 2500)
+    callback(avg);
+  }, 1500)
 };

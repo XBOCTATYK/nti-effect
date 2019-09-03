@@ -5,7 +5,7 @@ import {PictureObject} from "./DrawingObjects/PictureObject";
 import {RandomAppear} from "./behavior/randomAppear";
 import {createPicItems} from "./lib/createPicItems";
 
-window.addEventListener('load', function () {
+function initWaves(fps) {
   var canvas = document.getElementById('waves');
   paper.setup(canvas);
 
@@ -21,8 +21,11 @@ window.addEventListener('load', function () {
 
   back.onLoad = function () {
     back.width = 1920;
-    back.height = 600
+    back.height = 600;
+    canvas.style.opacity = 1;
   };
+
+  if (fps < 10) return;
 
   /** Мелкие элементы, рандомно появляющиеся на экране */
   const imageArray = [`${imgPath}dots.svg`, `${imgPath}square.svg`, `${imgPath}crossb.svg`, `${imgPath}crossp.svg`];
@@ -151,7 +154,7 @@ window.addEventListener('load', function () {
   };
 
   let stage = SPLASH_STAGES.IDLE;
-  let amount = 70;
+  let amount = 90;
   let accel = 1;
   let splashing = false;
   let maxAmp = 200;
@@ -286,8 +289,13 @@ window.addEventListener('load', function () {
     }
 
     skipping--;
-  })
+  });
 
+}
 
+window.addEventListener('load', () => {
+  initWaves();
 });
+
+
 
