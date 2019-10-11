@@ -6,7 +6,8 @@ import {RandomAppear} from "./behavior/randomAppear";
 import {createPicItems} from "./lib/createPicItems";
 
 function initWaves(fps) {
-  var canvas = document.getElementById('waves');
+
+  const canvas = document.getElementById('waves');
   paper.setup(canvas);
 
   const imgPath = canvas.dataset.bgPath;
@@ -41,28 +42,28 @@ function initWaves(fps) {
 
   /** Создание точек */
   /* Рандомим стартовую фазу */
-  const START_PHASE = Math.ceil(Math.random() * 360);
+  const START_PHASE = 100;
 
   let dots0 = createDots({
     startPosition: -80,
-    offsetPerStep: 380,
+    offsetPerStep: 150,
     startPhase: START_PHASE,
     yFactor: 600,
-    offsetPhase: 25,
-    count: 8,
+    offsetPhase: 20,
+    count: 25,
     zFactor: () => {
-      return -80
+      return -70
     }
   });
 
 
   let dots1 = createDots({
     startPosition: -80,
-    offsetPerStep: 220,
+    offsetPerStep: 160,
     startPhase: START_PHASE,
     yFactor: 550,
-    offsetPhase: 25,
-    count: 14,
+    offsetPhase: 18,
+    count: 22,
     zFactor: () => {
       return -60
     }
@@ -70,11 +71,11 @@ function initWaves(fps) {
 
   let dots2 = createDots({
     startPosition: -80,
-    offsetPerStep: 220,
+    offsetPerStep: 180,
     startPhase: START_PHASE,
-    offsetPhase: 25,
+    offsetPhase: 20,
     yFactor: 500,
-    count: 14,
+    count: 18,
     zFactor: () => {
       return -30
     }
@@ -85,7 +86,7 @@ function initWaves(fps) {
     offsetPerStep: 220,
     startPhase: START_PHASE,
     yFactor: 500,
-    offsetPhase: 25,
+    offsetPhase: 23,
     count: 14,
     zFactor: () => {
       return 0
@@ -94,10 +95,10 @@ function initWaves(fps) {
 
   let dots4 = createDots({
     startPosition: -80,
-    offsetPerStep: 220,
+    offsetPerStep: 270,
     startPhase: START_PHASE,
-    offsetPhase: 25,
-    count: 14,
+    offsetPhase: 27,
+    count: 10,
     yFactor: 550,
     zFactor: () => {
       return 10
@@ -106,10 +107,10 @@ function initWaves(fps) {
 
   let dots5 = createDots({
     startPosition: -80,
-    offsetPerStep: 240,
+    offsetPerStep: 360,
     startPhase: START_PHASE,
-    offsetPhase: 25,
-    count: 12,
+    offsetPhase: 37,
+    count: 8,
     yFactor: 650,
     zFactor: () => {
       return 40
@@ -118,10 +119,10 @@ function initWaves(fps) {
 
   let dots6 = createDots({
     startPosition: -80,
-    offsetPerStep: 380,
+    offsetPerStep: 420,
     startPhase: START_PHASE,
-    offsetPhase: 25,
-    count: 8,
+    offsetPhase: 40,
+    count: 6,
     yFactor: 900,
     zFactor: () => {
       return 60
@@ -133,13 +134,13 @@ function initWaves(fps) {
   let lines = createLines({
     dots: [dots0, dots1, dots2, dots3, dots4, dots5, dots6],
     ranges: [
-      {x: 300, z: 20},
+      {x: 160, z: 20},
       {x: 0, z: 0},
-      {x: 200, z: 30},
+      {x: 180, z: 30},
       {x: 0, z: 0},
-      {x: 200, z: 30},
+      {x: 280, z: 30},
       {x: 0, z: 0},
-      {x: 350, z: 20},
+      {x: 350, z: 30},
       {x: 0, z: 0},
     ],
     offsetLine: off
@@ -162,7 +163,8 @@ function initWaves(fps) {
   let splashTiming = 5000;
   let splashSpeedFactor = 30;
   let reduceSpeedFactor = 100;
-  let speedWave = 1;
+  let speedWave = 0;
+  let phase = 0;
 
   let mouseLock = false;
 
@@ -170,11 +172,11 @@ function initWaves(fps) {
   document.body.addEventListener('click', () => {
     stage = SPLASH_STAGES.SPLASH;
     maxAmp += 50;
-    splashTiming = 5000;
+    splashTiming = 100;
     speedWave = 1;
     splashSpeedFactor = 30;
-    reduceSpeedFactor = 100;
-    splashTiming = 5000;
+    reduceSpeedFactor = 70;
+    splashTiming = 100;
     mouseLock = true;
 
     setTimeout(() => {
@@ -189,12 +191,13 @@ function initWaves(fps) {
     splashSpeedFactor = options.splashSpeedFactor;
     reduceSpeedFactor = options.reduceSpeedFactor;
     speedWave = 1;
+    phase = 0;
   };
 
   const randomSplash = () => {
     makeSplash({
       splash: Math.ceil(Math.random() * 60 - 30),
-      splashTiming: Math.ceil(Math.random() * 10000 + 2000),
+      splashTiming: Math.ceil(Math.random() * 1000 + 20),
       splashSpeedFactor: Math.ceil(200),
       reduceSpeedFactor: Math.ceil(300)
     });
@@ -202,98 +205,55 @@ function initWaves(fps) {
 
   randomSplash();
 
-  const SPLASH_TIMING = 8000;
-  setInterval(() => {
-    if (!splashing && stage !== SPLASH_STAGES.REDUCE) {
-      randomSplash();
-    }
-  }, SPLASH_TIMING);
-
-
-  paper.view.onFrame = function () {
-
-    if (stage === SPLASH_STAGES.SPLASH) {
-
-      if (amount > maxAmp) {
-        stage = SPLASH_STAGES.SPLASHING;
-      }
-
-      lines.forEach(item => {
-        item.change({
-          amplitude: amount += accel / splashSpeedFactor,
-          speed: speedWave
-        })
-      })
-    }
-
-    if (stage === SPLASH_STAGES.SPLASHING) {
-      if (!splashing) {
-        setTimeout(() => {
-          stage = SPLASH_STAGES.REDUCE;
-        }, splashTiming);
-        splashing = true;
-      }
-    }
-
-    if (stage === SPLASH_STAGES.REDUCE) {
-      splashing = false;
-
-      if (amount < minAmp) {
-        stage = SPLASH_STAGES.IDLE;
-      }
-
-      lines.forEach(item => {
-        item.change({
-          amplitude: amount -= accel / reduceSpeedFactor
-        })
-      });
-
-    }
-  };
 
   let skipping = 30;
   let moved = false;
   const MAX_MOVEMENT = 60;
   const MIN_MOVEMENT = 10;
-  const MAX_MOUSE_AMPLITUDE = 200;
+  const MAX_MOUSE_AMPLITUDE = 220;
   const MOUSE_DETECT_SURFACE = '.js-slider-waves';
 
   const sliderWaves = document.querySelector(MOUSE_DETECT_SURFACE);
 
   sliderWaves.addEventListener('mousemove', (event) => {
 
-    if (event.clientX < 300) return;
 
-    if (skipping <= 0 && amount < MAX_MOUSE_AMPLITUDE && !mouseLock) {
-      let movement = Math.sqrt(event.movementY ** 2 + event.movementX ** 2) * 1.4;
+    makeSplash({
+      splash: 500-event.clientY,
+      splashTiming: 100,
+      splashSpeedFactor: 50,
+      reduceSpeedFactor: 100
+    });
 
-      if (movement > MAX_MOVEMENT) {
-        movement = MAX_MOVEMENT;
-      }
-
-      if (movement < MIN_MOVEMENT) return;
-
-      makeSplash({
-        splash: movement += 4,
-        splashTiming: 1000,
-        splashSpeedFactor: 100,
-        reduceSpeedFactor: 200
-      });
-
-      moved = true;
-
-      setTimeout(() => {
-        skipping = 20;
-        moved = false;
-      }, 200)
+    let amp = 500-event.clientY;
+    if (amp > 250) {
+      amp = 180;
     }
 
-    skipping--;
+    let speed = event.clientX/600;
+
+    if (speed < 0.2) {
+      speed = 0.2;
+    }
+
+    lines.forEach(item => {
+      item.change({
+        amplitude: amp,
+        speed: speed
+      })
+    });
+
   });
+
+  setTimeout(() => {
+    paper.view.remove();
+    initWaves()
+  }, 600000)
 
 }
 
 window.addEventListener('load', () => {
+  const canvas = document.getElementById('waves');
   initWaves();
 });
 

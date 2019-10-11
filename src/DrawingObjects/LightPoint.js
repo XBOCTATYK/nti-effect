@@ -71,11 +71,10 @@ export class LightPoint extends AbstractObject{
   }
 
   _getOpacity() {
-    return this.initialPosition.z > 0 ? zFunction(this.initialPosition.z)*3 : zFunction(this.initialPosition.z)
+    return this.initialPosition.z > 0 ? 0.3+zFunction(this.initialPosition.z)*3 : zFunction(this.initialPosition.z)
   }
 
   _getSize(initSize = 30) {
-    //console.log(initSize);
     return this.initialPosition.z > 0 ? Math.ceil((this.initialPosition.z**2)/800)+initSize : Math.ceil((this.initialPosition.z**2)/800)+initSize
   };
 }

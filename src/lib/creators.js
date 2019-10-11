@@ -55,21 +55,23 @@ const calculateOptionsWithZ = (z) => {
   let lineOptions = {};
   const absZ = Math.abs(z);
   const nullZ = (z === 0);
+  const initWidth = 2;
+  const initOpacity = 0.7;
 
   if (nullZ) return {
     color: '#4df8ff',
-    opacity: 0.6,
-    width: 2,
+    opacity: initOpacity,
+    width: initWidth,
     animation: {
       flashStrength: 0.5,
       changeWidth: true
     }
   };
 
-  lineOptions.width = absZ/5;
-  lineOptions.opacity = z > 0 ? Math.abs(0.1-(absZ/1000)) : Math.abs(0.05-(absZ/2000));
+  lineOptions.width = z > 0 ? initWidth+absZ/20 : absZ/5;
+  lineOptions.opacity = z > 0 ? initOpacity : Math.abs(0.05-(absZ/2000));
 
-  if (z < -40 && localStorage.getItem('goodPerfomance')) {
+  if (z < -40 || z > 40) {
     lineOptions.blur = absZ / 20;
   }
 
@@ -89,7 +91,7 @@ const calculateOptionsWithZ = (z) => {
  * @returns {Array<LightPoint>}
  */
 
-const FILL_MAIN = new Color('#30eff8');
+const FILL_MAIN = new Color('#30f2fb');
 
 export function createDots(options = DEFAULT_OPTIONS) {
     const count = options.count || 1;
