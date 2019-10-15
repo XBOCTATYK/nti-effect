@@ -238,8 +238,10 @@ function initWaves(fps) {
 
     lines.forEach(item => {
       item.change({
-        amplitude: amp,
-        speed: speed
+        animation: {
+          amplitude: amp,
+          speed: speed
+        }
       })
     });
 

@@ -29,17 +29,6 @@ export class LineBetween extends SimpleLine {
   constructor(options) {
     super(options);
 
-    try {
-      this.element.fromPathElement = options.fromPathElement.element || this._throwError('LineBetween: lineFromElement is required');
-      this.element.toPathElement = options.toPathElement.element || this._throwError('LineBetween: lineToElement is required');
-      this.element.fromPathElement.offset = options.fromOffset || INITIAL_OFFSET;
-      this.element.toPathElement.offset = options.toOffset || INITIAL_OFFSET;
-    } catch (e) {
-      this._throwError('LineBetween: lineFromElement is required')
-    }
-
-    this.addBehavior(LineBetweenElements);
-    this.addBehavior(PeriodicalFlash, options.animation);
     this._constructAnimation();
   }
 

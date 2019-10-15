@@ -11,13 +11,12 @@ const INITIAL_OFFSET = {
  * Расчет положения линии в пространстве между двумя элементами
  */
 export class LineBetweenElements extends AbstractBehavior{
-  constructor(options) {
-    super(options);
-    //this.borderOffset = this.calculateOffset(this.element.toPathElement, this.element.fromPathElement);
+  constructor(element, options) {
+    super(element, options);
   }
 
   animate() {
-    this.setPosition(this.element.fromPathElement, this.element.toPathElement, this.element.fromPathElement.offset, this.element.toPathElement.offset);
+    this.setPosition(this.options.fromPathElement, this.options.toPathElement, this.options.fromPathElementOffset, this.options.toPathElementOffset);
   }
 
   /**
@@ -35,29 +34,4 @@ export class LineBetweenElements extends AbstractBehavior{
     this.element.removeSegments(this.element.segments[0].index, this.element.segments[this.element.segments.length - 2].index)
   }
 
-  calculateOffset(fromElement, toElement) {
-    const offset = {
-      fromElement: {x: 0, y: 0},
-      toElement: {x: 0, y: 0}
-    };
-
-      if (toElement.position.getX() < fromElement.position.getX()) {
-        offset.toElement.x = -1*this.element.radius;
-        offset.fromElement.x = this.element.radius;
-      } else {
-        offset.toElement.x = this.element.radius;
-        offset.fromElement.x = -1*this.element.radius;
-      }
-
-      if (toElement.position.getY() < fromElement.position.getY()) {
-        offset.toElement.y = -1*this.element.radius;
-        offset.fromElement.y = this.element.radius;
-      } else {
-        offset.toElement.y = this.element.radius;
-        offset.fromElement.y = -1*this.element.radius;
-      }
-
-     // console.log(offset);
-      return offset;
-  }
 }

@@ -3,6 +3,8 @@ import paper from "paper";
 import {Color} from "../paperExports";
 import {LineBetween} from "../Figures/LineBetween";
 import {inRange} from "./utils";
+import {createLightPoint} from "../creators/createLightPoint";
+import {createLine} from "../creators/createLine";
 
 const DEFAULT_OPTIONS = {
   startPosition: 0,
@@ -10,40 +12,6 @@ const DEFAULT_OPTIONS = {
   startPhase: 1,
   offsetPhase: 35,
   amplitudeFactor: Math.ceil(Math.random()*30) + 30
-};
-
-const defaultOptions = {
-  offset: 0,
-  width: 1,
-  opacity: 0.5,
-  blur: 0,
-  color: '#26c3cc',
-  shadowColor: '#ffffff'
-};
-
-/**
- * Создает линию от одного объекта до другого
- * @param {AbstractObject} from
- * @param {AbstractObject} to
- * @param {object} opt
- */
-const createLine = (from, to, opt = defaultOptions) => {
-  const options = {...defaultOptions, ...opt};
-
-  new LineBetween({
-    fromPathElement: from,
-    toPathElement: to,
-    fromOffset: {x: Math.ceil(Math.random()*options.offset*2-options.offset), y: Math.ceil(Math.random()*options.offset*2-options.offset)},
-    toOffset: {x: Math.ceil(Math.random()*options.offset*2-options.offset), y: Math.ceil(Math.random()*options.offset*2-options.offset)},
-    element: {
-      strokeColor: options.color,
-      strokeWidth: options.width,
-      opacity: options.opacity,
-      shadowBlur: options.blur,
-      shadowColor: options.shadowColor
-    },
-    animation: options.animation
-  });
 };
 
 /**
@@ -91,8 +59,6 @@ const calculateOptionsWithZ = (z) => {
  * @returns {Array<LightPoint>}
  */
 
-const FILL_MAIN = new Color('#30f2fb');
-
 export function createDots(options = DEFAULT_OPTIONS) {
     const count = options.count || 1;
     const zFactor = options.zFactor || 0;
@@ -108,17 +74,10 @@ export function createDots(options = DEFAULT_OPTIONS) {
     let phase = options.startPhase;
 
     for (let index = 0; index < count; index++) {
-      const newDot = new LightPoint({
-        initialPosition: {
-          x: position,
-          y: yFactor,
-          z: zFactor()
-        },
-        element: {
-          radius: 5,
-          center: paper.view.center,
-          fillColor: FILL_MAIN
-        },
+      const newDot = createLightPoint({
+        x: position,
+        y: yFactor,
+        z: zFactor,
         animation: {
           speed: 1,
           phase: phase,
