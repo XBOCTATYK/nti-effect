@@ -24,13 +24,7 @@
     "dependencies": {
         "@babel/polyfill": "^7.2.5",
         "axios": "^0.21.1",
-        "paper": "^0.12.3",
-        "pixi.js": "^5.1.1",
-        "react": "^16.8.3",
-        "react-dom": "^16.8.3",
-        "react-proptypes": "^1.0.0",
-        "react-select": "^3.0.4",
-        "react-tabs": "^3.0.0",
+        "paper": "^0.12.11",
         "webpack-cli": "^3.3.4"
     },
     "scripts": {
