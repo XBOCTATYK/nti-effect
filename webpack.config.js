@@ -61,39 +61,6 @@ let config = {
                 }
             },
 
-            // CSS
-            // ===
-            {
-                test: /\.css$/,
-                use:  ['style-loader', 'css-loader']
-            },
-
-            // SASS
-            // ====
-            {
-                test: /\.(scss|sass)$/,
-                use:  extractSass.extract({
-                    fallback: "style-loader",
-                    use:      [
-                        {
-                            loader: 'raw-loader'
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: [
-                                    autoprefixer()
-                                ],
-                                sourceMap: sourceMapsCss
-                            }
-                        },
-                        {
-                            loader: 'sass-loader'
-                        }
-                    ],
-                    publicPath: projectCssPath
-                })
-            },
         ]
     },
 
